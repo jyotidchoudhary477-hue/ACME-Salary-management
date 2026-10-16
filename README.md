@@ -1,80 +1,101 @@
 # ACME HR — Salary Management
-Web application for HR to manage employee compensation at scale: search and maintain records, track salary changes, and view payroll analytics. Includes a seeded dataset of about 10,000 employees for realistic list and filter behavior.
 
+HR web app to manage employee salaries: search and edit records, track salary changes, and view payroll analytics. Seeded with about 10,000 employees.
+
+## Links
+
+| | URL |
+|--|-----|
+| GitHub | https://github.com/jyotidchoudhary477-hue/ACME-Salary-management.git
+| Frontend | https://acme-salary-management-mbxc.vercel.app/login |
+| Backend health | https://acme-salary-management-backend.onrender.com/api/health |
+| Backend API | https://acme-salary-management-backend.onrender.com/api |
 
 ## Stack
 
-| Layer | Technologies |
-|-------|----------------|
-| Backend | Node.js, Express, SQLite |
+| Layer | Tech |
+|-------|------|
 | Frontend | React, Vite, TypeScript, Tailwind CSS |
-
+| Backend | Node.js, Express, SQLite |
+| Auth | JWT |
+| Hosting | Vercel (frontend), Render (backend) |
 
 ## Features
-- **Authentication** — JWT-based signup and login; API routes protected except health and auth.
-- **Dashboard** — Headcount, payroll summaries, and charts.
-- **Employees** — Search, filter, sort, paginated list; create, view, edit, and delete.
-- **Salary history** — Audit trail: who changed pay, when, previous vs new amount, effective date, and reason.
-- **Raise Simulator** — Preview payroll impact of a % raise (optional dept/country filters); apply when ready.
-- **Salary Analytics** — Rollups by department, country, and related metrics.
-- **Settings** — App and org configuration exposed in the UI.
-- **Seed data** — Generates ~10,000 employees (configurable via `SEED_COUNT`).
+
+- JWT signup / login
+- Dashboard — headcount, payroll summaries, charts
+- Employees — search, filter, sort, pagination, CRUD
+- Compare — side-by-side compensation for 2–3 employees
+- Salary history — previous/new amount, effective date, reason, who changed
+- Raise simulator — preview % raise impact; apply when ready
+- Salary analytics — by department and country
+- Settings
+- Seed data (~10,000 employees via `SEED_COUNT`)
 
 ## Prerequisites
-- **Node.js** 18 or newer
+
+- Node.js 18+
+- npm
 
 ## Setup
 ```bash
-git clone <repository-url>
-cd acme-salary-management
-```
+git clone https://github.com/jyotidchoudhary477-hue/ACME-Salary-management.git
+cd ACME-Salary-management
 
-Copy environment templates (commit `.env.example`; never commit `.env` — it is gitignored and holds local secrets):
-
-```bash
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
-```
 
-Install dependencies, migrate, seed, and run:
-
-```bash
 npm run install:all
 npm run db:migrate
 npm run db:seed
 
 npm run dev:backend
 npm run dev:frontend
-# or: cd frontend && npm install && npm run dev
 ```
 
-## URLs
+`.env` is gitignored. Use `.env.example` as the template; do not commit real secrets.
+
+### Local URLs
 
 | Service | URL |
 |---------|-----|
-| UI | http://localhost:5173 |
-| API | http://localhost:4000 |
-| Health check | http://localhost:4000/api/health |
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:4000 |
+| Health | http://localhost:4000/api/health |
 
-## Demo credentials
+### Demo login
 
-From `backend/.env.example` (override in your local `backend/.env` if needed):
+| | |
+|--|--|
+| Email | `hr@acme.example` |
+| Password | `password123` |
 
-- **Email:** `hr@acme.example`
-- **Password:** `password123`
+## Production env
+
+| Where | Variable | Value |
+|-------|----------|--------|
+| Vercel (frontend) | `VITE_API_BASE_URL` | `https://acme-salary-management-backend.onrender.com/api` |
+| Render (backend) | `CORS_ORIGIN` | `https://acme-salary-management-mbxc.vercel.app` |
+| Render (backend) | `JWT_SECRET` | strong secret (not the example value) |
+| Render (backend) | `NODE_VERSION` | `20.18.1` |
 
 ## Scripts
 
-| Command | Where | Purpose |
-|---------|--------|---------|
-| `npm run db:migrate` | root | Apply SQLite schema |
-| `npm run db:seed` | root | Seed employees and demo HR user |
-| `npm test` | root | Backend unit tests |
-| `npm run migrate` | `backend/` | Same as `db:migrate` |
-| `npm run seed` | `backend/` | Same as `db:seed` |
-| `npm test` | `backend/` | Backend tests |
-| `npm run dev` | `backend/` / `frontend/` | Dev server with watch (API) or Vite (UI) |
+| Command | Purpose |
+|---------|---------|
+| `npm run install:all` | Install backend and frontend deps |
+| `npm run db:migrate` | Apply SQLite schema |
+| `npm run db:seed` | Seed employees and demo HR user |
+| `npm run dev:backend` | Backend (watch) |
+| `npm run dev:frontend` | Frontend (Vite) |
+| `npm test` | Backend unit tests |
 
 ## Project layout
-- **`backend/`** — Express API, SQLite migrations and seed, domain logic, tests.
-- **`frontend/`** — React SPA, routing, API client, pages and components.
+
+```text
+ACME-Salary-management/
+├── backend/     # Express API, SQLite, seed, tests
+├── frontend/    # React SPA
+├── package.json
+└── README.md
+```
